@@ -1,0 +1,21 @@
+# Variáveis para facilitar a manutenção
+CC = gcc
+CFLAGS = -Wall -Wextra -pedantic
+TARGET = exe
+SOURCES = main.c mapa.c
+
+
+# Regra padrão para compilar o projeto
+compile: $(SOURCES)
+    $(CC) $(CFLAGS) $(SOURCES) -o $(TARGET)
+
+# Regra para executar o programa
+run: compile
+    ./$(TARGET)
+
+# Regra para limpar arquivos gerados
+clean:
+    rm -f $(TARGET)
+
+# Regra para compilar e executar
+all: compile run
