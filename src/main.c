@@ -2,14 +2,24 @@
 
 int main()
 {
-    printf("Hello, World!\n");
-    
     Mapa mapa = NULL;
-    mapa = NULL; //era o certo ... criar entao o typedef ponteiro pra mapa e mapa(que é uma matriz de int ou seja int**) 
-    
-    CriaMapa(&mapa, 5, 5);
 
+    MostrarMapa(mapa, 5, 5);
+    printf ("Mapa mostrado\n");
+ 
+    CriaMapa(&mapa, 5, 5);
     printf ("Mapa criado\n");
+
+    MostrarMapa(mapa, 4, 5);
+    printf("Mapa mostrado 2\n");
+
+    int vetor[] = {1, 2, 3, 4, 5};
+    //PreencherMapa(&mapa, (int[]){1, 2, 3, 4, 5}, 0);
+    PreencherMapa(&mapa,0,vetor,5);
+    printf ("Mapa preenchido\n");
+    
+    MostrarMapa(mapa, 5, 5);
+
     ApagaMapa(&mapa, 5);
     printf ("Mapa apagado\n");
     return 0;    

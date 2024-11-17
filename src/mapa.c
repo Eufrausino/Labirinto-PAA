@@ -1,9 +1,28 @@
+/**************************************************************
+ * Nome do arquivo: mapa.c
+ * Projeto: Labirinto-PAA
+ * Descrição: definições de funcionalidades para manipulação do tipo Mapa
+ * 
+ * Autor(es): Gabriel de Pádua
+ * Data de criação: 15/11/2024
+ * 
+ * Histórico de versões:
+ *    - v1.0 - 15/11/2024: criada funçoes criar mapa e apagar mapa
+ *    - v1.1 - 16/11/2014: criada funções mostrar mapa e preencher mapa
+ * 
+ * Dependências:
+ *    - mapa.h
+ * 
+ * Observações:
+ *    - 
+ **************************************************************/
 #include "mapa.h"
-
 /*
 
        int***       --> int**                --> int*     --> int
 ponteiro pra matriz     ponteiro pra linha       vetor de inteiros 
+
+
 */
 
 //typedef int*** Mapa;
@@ -53,13 +72,34 @@ void ApagaMapa(ApontadorMapa mapa, int linhas)
     *mapa = NULL;
 }
 
-//void PreencherMapa(ApontadorMapa mapa, int linhas, int colunas, int vetor[])
+void MostrarMapa(Mapa mapa, int linhas, int colunas)
+{
+    if (mapa == NULL)
+    {
+        printf("Mapa não existe\n");
+        return;
+    }
 
-//preencher Mapa
+    for (int i = 0; i < linhas; i++)
+    {
+        for (int j = 0; j < colunas; j++)
+        {
+            printf("%d ", mapa[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void PreencherMapa(ApontadorMapa mapa, int posicacaoLinha, int valores[],int qtdColunas){
+
+    for (int i = 0; i < qtdColunas; i++)
+    {
+        (*mapa)[posicacaoLinha][i] = valores[i];
+    }
+    
+}
 
 //Modificar valor da matriz
-
-//mostrar matriz 
 
 //verificar se a matriz está vazia
 
