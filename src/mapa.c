@@ -3,12 +3,13 @@
  * Projeto: Labirinto-PAA
  * Descrição: definições de funcionalidades para manipulação do tipo Mapa
  * 
- * Autor(es): Gabriel de Pádua
+ * Autor(es): Gabriel de Pádua, Matheus Kauan
  * Data de criação: 15/11/2024
  * 
  * Histórico de versões:
  *    - v1.0 - 15/11/2024: criada funçoes criar mapa e apagar mapa
- *    - v1.1 - 16/11/2014: criada funções mostrar mapa e preencher mapa
+ *    - v1.1 - 16/11/2024: criada funções mostrar mapa e preencher mapa
+ *    - v1.2 - 20/11/2024: criado função de leitura de arquivo para o labirinto
  * 
  * Dependências:
  *    - mapa.h
@@ -76,7 +77,7 @@ void MostrarMapa(Mapa mapa, int linhas, int colunas)
 {
     if (mapa == NULL)
     {
-        printf("Mapa não existe\n");
+        printf("Mapa nao existe\n");
         return;
     }
 
@@ -98,6 +99,88 @@ void PreencherMapa(ApontadorMapa mapa, int posicacaoLinha, int valores[],int qtd
     }
     
 }
+
+//Função para leitura de arquivo
+
+void InsereLabirinto(ApontadorMapa mapa, char Labirinto[])
+{
+    FILE* labirinto;
+    char caminhoArquivo[30];
+    int linha = 0;
+    int qtdLinhas, qtdColunas, qtdChaves;
+    int mapaCarregado = 1;
+
+    snprintf(caminhoArquivo, sizeof(caminhoArquivo), "src/%s", Labirinto); 
+
+    labirinto = fopen(caminhoArquivo, "r");
+
+    if (labirinto == NULL)
+    {
+        printf("Erro ao abrir o arquivo %s\n", Labirinto);
+        return;
+    }
+
+    // Lê a primeira linha com os metadados
+    if (fscanf(labirinto, "%d %d %d", &qtdLinhas, &qtdColunas, &qtdChaves) != 3)
+    {
+        printf("Erro ao ler os metadados do arquivo.\n");
+        fclose(labirinto);
+        return;
+    }
+
+    printf("Numero de linhas: %d\n", qtdLinhas);
+    printf("Numero de colunas: %d\n", qtdColunas);
+    printf("Numero de chaves: %d\n\n", qtdChaves);
+
+   
+    CriaMapa(mapa, qtdLinhas, qtdColunas);
+
+    // Lê e ignora a linha com os metadados (não preenche na matriz)
+    char linhaArquivo[qtdColunas + 2];  // Buffer para cada linha (+ 2 porque inclui '\n' e '\0')
+    fgets(linhaArquivo, sizeof(linhaArquivo), labirinto);  // Pula a primeira linha
+
+    
+    for (int i = 0; i < qtdLinhas; i++)
+    {
+        if (fgets(linhaArquivo, sizeof(linhaArquivo), labirinto) != NULL)
+        {
+            int valores[qtdColunas];
+            for (int j = 0; j < qtdColunas; j++)
+            {
+                // Converte cada caractere da linha para o valor inteiro correspondente
+                if (linhaArquivo[j] >= '0' && linhaArquivo[j] <= '3')
+                {
+                    valores[j] = linhaArquivo[j] - '0';
+                }else{
+                    printf("Erro ao ler uma posicao do labirinto\n");
+                    ApagaMapa(mapa, qtdLinhas);
+                    mapaCarregado = 0;
+                    break;
+                }
+               
+            }
+
+            PreencherMapa(mapa, i, valores, qtdColunas);
+        }
+        else
+        {
+            printf("Erro ao ler a linha %d do labirinto.\n", i + 1);
+            ApagaMapa(mapa, qtdLinhas);
+            mapaCarregado = 0;
+            break;
+        }
+    }
+
+    
+    
+
+    fclose(labirinto);
+
+    MostrarMapa(*mapa, qtdLinhas, qtdColunas);
+    if(mapaCarregado) printf("Mapa carregado com sucesso.\n");
+        
+}
+
 
 //Modificar valor da matriz
 

@@ -4,6 +4,12 @@ int main()
 {
     Mapa mapa = NULL;
 
+    InsereLabirinto(&mapa, "labirinto.txt");
+
+}
+
+/*
+main()
     MostrarMapa(mapa, 5, 5);
     printf ("Mapa mostrado\n");
  
@@ -22,5 +28,5 @@ int main()
 
     ApagaMapa(&mapa, 5);
     printf ("Mapa apagado\n");
-    return 0;    
-}
+    return 0;   
+*/
