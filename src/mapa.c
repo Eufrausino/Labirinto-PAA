@@ -102,7 +102,7 @@ void PreencherMapa(ApontadorMapa mapa, int posicacaoLinha, int valores[],int qtd
 
 //Função para leitura de arquivo
 
-void InsereLabirinto(ApontadorMapa mapa, char Labirinto[])
+void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coordenadas* dimensao)
 {
     FILE* labirinto;
     char caminhoArquivo[30];
@@ -110,7 +110,8 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[])
     int qtdLinhas, qtdColunas, qtdChaves;
     int mapaCarregado = 1;
 
-    snprintf(caminhoArquivo, sizeof(caminhoArquivo), "src/%s", Labirinto); 
+    snprintf(caminhoArquivo, sizeof(caminhoArquivo), "../%s", Labirinto);
+    printf("%s\n", caminhoArquivo);
 
     labirinto = fopen(caminhoArquivo, "r");
 
@@ -132,7 +133,10 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[])
     printf("Numero de colunas: %d\n", qtdColunas);
     printf("Numero de chaves: %d\n\n", qtdChaves);
 
-   
+    aluno->chaves_no_bolso = qtdChaves;
+    dimensao->x = qtdLinhas;
+    dimensao->y = qtdColunas;
+
     CriaMapa(mapa, qtdLinhas, qtdColunas);
 
     // Lê e ignora a linha com os metadados (não preenche na matriz)
@@ -171,9 +175,6 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[])
         }
     }
 
-    
-    
-
     fclose(labirinto);
 
     MostrarMapa(*mapa, qtdLinhas, qtdColunas);
@@ -187,3 +188,150 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[])
 //verificar se a matriz está vazia
 
 //FUTURAMENTE mostrar posição do aluno de Programação 
+
+pilha* criaPilha(int tamanhoPilha)
+{
+    pilha* stack = (pilha*)malloc(sizeof(pilha));
+    stack->dimensao = (coordenadas*)malloc(tamanhoPilha * sizeof(coordenadas));
+    stack->topo = -1;
+    stack->tamanhoPilha = tamanhoPilha;
+
+    return stack;
+}
+
+int pilhaVazia(pilha* stack)
+{
+    return stack->topo == -1;
+}
+
+coordenadas desempilha(pilha* stack)
+{
+   if (pilhaVazia(stack)) {
+        printf("Erro: Tentativa de desempilhar uma pilha vazia.\n");
+        exit(EXIT_FAILURE);
+    }
+    return stack->dimensao[stack->topo--];
+}
+
+void empilha(pilha* stack, int x, int y)
+{
+    if (stack->topo + 1 >= stack->tamanhoPilha) {
+        printf("Erro: Pilha cheia!\n");
+        exit(EXIT_FAILURE);
+    }
+    stack->topo++;
+    stack->dimensao[stack->topo].x = x;
+    stack->dimensao[stack->topo].y = y;
+}
+
+coordenadas olhaTopo(pilha* stack)
+{
+    return stack->dimensao[stack->topo];
+}
+
+void destroiPilha(pilha* stack)
+{
+    free(stack->dimensao);
+    free(stack);
+}
+
+int movimenta_estudante(int eixoX, int eixoY, Mapa mapa, estudante aluno, coordenadas dimensao)
+{
+    //Confere posição do movimento está dentro do mapa
+    if(eixoX >= 0 && eixoY >=0 && eixoX < dimensao.x && eixoY < dimensao.y)
+    {
+        //Se caminho livre ou se porta e estudante com chave -> movimento permitido
+        if(mapa[eixoX][eixoY] == 1 || (mapa[eixoX][eixoY] == 3 && aluno.chaves_no_bolso >= 1))
+        {
+            printf("Linha: %d Coluna: %d\n",eixoX,eixoY);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno)
+{
+    coordenadas posicao;
+    //Determina ponto de partida do mapa
+    for(int i = 0; i < linhas; i++)
+    {
+        for(int j = 0; j < colunas; j++)
+        {
+            if(mapa[i][j] == 0)
+            {
+                posicao.x = i;
+                posicao.y = j;
+                break;
+            }
+        }
+    }
+    coordenadas dimensao;
+    coordenadas ponto_partida;
+    ponto_partida.x = posicao.x;
+    ponto_partida.y = posicao.y;
+    //define dimensão do mapa
+    dimensao.x = linhas;
+    dimensao.y = colunas;
+    //cria pilha que guarda as movimentações do backtracking
+    pilha* stack = criaPilha(dimensao.x*dimensao.y);
+    empilha(stack, posicao.x, posicao.y);
+    printf("Linha: %d Coluna: %d\n", posicao.x, posicao.y);
+    int cont = 0;
+
+    while(!pilhaVazia(stack))
+    {
+        posicao.x = olhaTopo(stack).x;
+        posicao.y = olhaTopo(stack).y;
+        //passo base, se chegou na linha 0. Sucesso saiu do labirinto
+        if(posicao.x == 0)
+        {
+            printf("O estudante se moveu %d vezes e chegou na coluna %d da primeira linha\n", cont, posicao.y);
+
+            destroiPilha(stack);
+            return;
+        }
+        //Marca onde passou no labirinto
+        mapa[posicao.x][posicao.y] = -1;
+        
+        //Se posição válida, realiza movimentação em cada uma das direções: cima, baixo, esquerda ou direita
+        if(movimenta_estudante(posicao.x + 1, posicao.y, mapa, aluno,dimensao))
+        {
+            empilha(stack, posicao.x+1,posicao.y);
+        }
+
+        else if(movimenta_estudante(posicao.x - 1, posicao.y, mapa, aluno,dimensao))
+        {
+            empilha(stack, posicao.x-1,posicao.y);
+            }
+
+        else if(movimenta_estudante(posicao.x, posicao.y+1, mapa, aluno,dimensao))
+        {
+            empilha(stack, posicao.x,posicao.y+1);
+        }
+
+        else if(movimenta_estudante(posicao.x, posicao.y-1, mapa, aluno,dimensao))
+        {
+            empilha(stack, posicao.x,posicao.y-1);
+        }
+        else
+        { 
+            //Se nenhuma movimentação deu certo, volta para o passo anterior
+            desempilha(stack);
+            if(olhaTopo(stack).x != ponto_partida.x && olhaTopo(stack).y != ponto_partida.y)
+            {
+                printf("Linha: %d Coluna: %d\n", olhaTopo(stack).x, olhaTopo(stack).y);
+            }
+            else if (olhaTopo(stack).x == ponto_partida.x && olhaTopo(stack).y == ponto_partida.y)
+            {
+                cont++;
+                break;
+            }
+        }
+        cont++;
+    }
+    printf("\nO estudante se moveu %d e percebeu que o labirinto não tem saída!\n", cont);
+    destroiPilha(stack);
+    return;
+}
+

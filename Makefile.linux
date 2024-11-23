@@ -1,0 +1,7 @@
+compile:
+	gcc src/main.c src/mapa.c -o output/exe.out
+
+run:
+	./output/exe.out
+
+all: compile run
