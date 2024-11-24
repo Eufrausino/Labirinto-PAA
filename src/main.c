@@ -3,9 +3,12 @@
 int main()
 {
     Mapa mapa = NULL;
+    estudante aluno;
+    coordenadas dimensao;
 
-    InsereLabirinto(&mapa, "labirinto.txt");
-
+    InsereLabirinto(&mapa, "labirinto.txt", &aluno, &dimensao);
+    ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
+    return 0;
 }
 
 /*
