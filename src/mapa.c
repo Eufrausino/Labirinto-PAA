@@ -270,14 +270,20 @@ void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno)
     coordenadas ponto_partida;
     ponto_partida.x = posicao.x;
     ponto_partida.y = posicao.y;
+
     //define dimensão do mapa
     dimensao.x = linhas;
     dimensao.y = colunas;
+
     //cria pilha que guarda as movimentações do backtracking
     pilha* stack = criaPilha(dimensao.x*dimensao.y);
     empilha(stack, posicao.x, posicao.y);
     printf("Linha: %d Coluna: %d\n", posicao.x, posicao.y);
     int cont = 0;
+
+    int moveX[] = {-1,1,0,0};
+    int moveY[] = {0,0,-1,1};
+    int moveu;
 
     while(!pilhaVazia(stack))
     {
@@ -293,39 +299,28 @@ void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno)
         }
         //Marca onde passou no labirinto
         mapa[posicao.x][posicao.y] = -1;
-        
-        //Se posição válida, realiza movimentação em cada uma das direções: cima, baixo, esquerda ou direita
-        if(movimenta_estudante(posicao.x + 1, posicao.y, mapa, aluno,dimensao))
-        {
-            empilha(stack, posicao.x+1,posicao.y);
-        }
+        moveu = 0;
 
-        else if(movimenta_estudante(posicao.x - 1, posicao.y, mapa, aluno,dimensao))
+        for(int i = 0; i < 4; i++)
         {
-            empilha(stack, posicao.x-1,posicao.y);
-            }
+            int x_atual = posicao.x + moveX[i];
+            int y_atual = posicao.y + moveY[i];
 
-        else if(movimenta_estudante(posicao.x, posicao.y+1, mapa, aluno,dimensao))
-        {
-            empilha(stack, posicao.x,posicao.y+1);
-        }
-
-        else if(movimenta_estudante(posicao.x, posicao.y-1, mapa, aluno,dimensao))
-        {
-            empilha(stack, posicao.x,posicao.y-1);
-        }
-        else
-        { 
-            //Se nenhuma movimentação deu certo, volta para o passo anterior
-            desempilha(stack);
-            if(olhaTopo(stack).x != ponto_partida.x && olhaTopo(stack).y != ponto_partida.y)
+            if(movimenta_estudante(x_atual, y_atual, mapa, aluno, dimensao))
             {
-                printf("Linha: %d Coluna: %d\n", olhaTopo(stack).x, olhaTopo(stack).y);
-            }
-            else if (olhaTopo(stack).x == ponto_partida.x && olhaTopo(stack).y == ponto_partida.y)
-            {
-                cont++;
+                empilha(stack, x_atual, y_atual);
+                moveu = 1;
                 break;
+            }
+        }
+
+        if(!moveu)
+        {
+            desempilha(stack);
+            if(!pilhaVazia(stack))
+            {
+                coordenadas topo = olhaTopo(stack);
+                printf("Linha: %d Coluna: %d\n", topo.x, topo.y);
             }
         }
         cont++;
