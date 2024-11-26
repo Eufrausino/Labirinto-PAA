@@ -1,4 +1,5 @@
-#include "mapa.h"
+#include "../headers/mapa.h"
+#include "../headers/backtracking.h"
 
 int main()
 {
