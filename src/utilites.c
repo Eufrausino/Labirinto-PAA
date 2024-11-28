@@ -1,3 +1,20 @@
+/**************************************************************
+ * Nome do arquivo: utilites.c
+ * Projeto: Labirinto-PAA
+ * Descrição: Definçoes de funcionalidades uteis para manipular o terminal, texto e legibilidade
+ * 
+ * Autor(es):Gabriel de Pádua
+ * Data de criação: 27/11/2024
+ * 
+ * Histórico de versões:
+ *    - v1.0 (gabriel)- Criada limparTerminalUnix,  mudarCorTexto, e pressEnter
+ * 
+ * Dependências:
+ *   - ultilities.h
+ * 
+ * Observações:
+ *
+ **************************************************************/
 #include "../headers/utilites.h"
 
 
@@ -34,6 +51,8 @@ void mudarCorTexto(int numeroNaMatriz) {
     case 3:
         printf("\033[0;31m"); //vermelho
         break;
+    case 4:
+        printf("\033[0;33m]"); //amarelo
     case 0:
         printf("\033[0;32m"); //verde
         break;
