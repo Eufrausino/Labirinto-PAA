@@ -18,7 +18,10 @@
  * Observações:
  *    - 
  **************************************************************/
+#ifndef MAPA_H
+#define MAPA_H
 
+#include "../headers/utilites.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "coordenadas.h"
@@ -27,14 +30,50 @@
 //-------------------Renomeando tipos de dados-------------------
 typedef int*** ApontadorMapa;// apontador de matriz de inteiros
 typedef int** Mapa; // matriz de inteiros 
+
+
 //-------------------Protótipos de funções-------------------
 void CriaMapa(ApontadorMapa mapa, int linhas, int colunas);
 void ApagaMapa(ApontadorMapa mapa, int linhas);
 void MostrarMapa(Mapa mapa, int linhas, int colunas);
 void PreencherMapa(ApontadorMapa mapa, int posicacaoLinha, int valores[],int qtdColunas);
+
+//Função para leitura de arquivo
 void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coordenadas* dimensao);
 //Modificar valor da matriz
 
 //verificar se a matriz está vazia
 
 //FUTURAMENTE mostrar posição do aluno de Programação 
+
+#endif
+
+
+
+// void opcao1(ApontadorMapa mapa, estudante* aluno, coordenadas* dimensao){
+
+
+//     if (*mapa == NULL)
+//     {
+//         printf("Por favor, digite o nome do arquivo: ");
+//         char nomeArquivo[50];
+//         scanf("%s", nomeArquivo); 
+//         InsereLabirinto((*mapa),nomeArquivo , &aluno, &dimensao);
+
+//         printf("Deseja visualizar o mapa? (1 -> SIM, 0 -> NAO): ");
+//         int opcao;
+//         scanf("%d", &opcao);
+
+//         if (opcao == 1){
+//             printf("\n\n");
+//             MostrarMapa(mapa, dimensao.x, dimensao.y);
+//         }
+//         else return;
+//     }
+    
+
+
+    
+
+
+// }

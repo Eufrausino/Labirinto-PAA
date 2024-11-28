@@ -7,4 +7,7 @@ typedef struct estudante
 }
 estudante;
 
+//ponteiro pra estrutura de estudante
+typedef estudante* ApontadorEstudante;
+
 #endif

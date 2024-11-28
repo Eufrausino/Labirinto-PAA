@@ -19,6 +19,7 @@
  **************************************************************/
 #include "../headers/mapa.h"
 #include "../headers/pilha.h"
+#include "../headers/utilites.h"
 /*
 
        int***       --> int**                --> int*     --> int
@@ -27,8 +28,9 @@ ponteiro pra matriz     ponteiro pra linha       vetor de inteiros
 
 */
 
-//typedef int*** Mapa;
 
+// typedef int*** ApontadorMapa _____________________ apontador de matriz de inteiros
+// typedef int** Mapa __________________ matriz de inteiros 
 
 void CriaMapa(ApontadorMapa mapa, int linhas, int colunas)
 {   
@@ -86,6 +88,7 @@ void MostrarMapa(Mapa mapa, int linhas, int colunas)
     {
         for (int j = 0; j < colunas; j++)
         {
+            mudarCorTexto(mapa[i][j]);
             printf("%d ", mapa[i][j]);
         }
         printf("\n");
@@ -106,13 +109,13 @@ void PreencherMapa(ApontadorMapa mapa, int posicacaoLinha, int valores[],int qtd
 void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coordenadas* dimensao)
 {
     FILE* labirinto;
-    char caminhoArquivo[30];
+    char caminhoArquivo[100];
     int linha = 0;
     int qtdLinhas, qtdColunas, qtdChaves;
     int mapaCarregado = 1;
 
-    snprintf(caminhoArquivo, sizeof(caminhoArquivo), "../%s", Labirinto);
-    printf("%s\n", caminhoArquivo);
+    snprintf(caminhoArquivo, sizeof(caminhoArquivo), "../%s.txt", Labirinto);
+    //printf("%s\n", caminhoArquivo);
 
     labirinto = fopen(caminhoArquivo, "r");
 
@@ -130,9 +133,9 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coo
         return;
     }
 
-    printf("Numero de linhas: %d\n", qtdLinhas);
-    printf("Numero de colunas: %d\n", qtdColunas);
-    printf("Numero de chaves: %d\n\n", qtdChaves);
+    // printf("Numero de linhas: %d\n", qtdLinhas);
+    // printf("Numero de colunas: %d\n", qtdColunas);
+    // printf("Numero de chaves: %d\n\n", qtdChaves);
 
     aluno->chaves_no_bolso = qtdChaves;
     dimensao->x = qtdLinhas;
@@ -178,9 +181,9 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coo
 
     fclose(labirinto);
 
-    MostrarMapa(*mapa, qtdLinhas, qtdColunas);
+    //MostrarMapa(*mapa, qtdLinhas, qtdColunas);
     if(mapaCarregado) printf("\nMapa carregado com sucesso.\n\n");
-        
+    
 }
 
 
