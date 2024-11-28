@@ -7,12 +7,14 @@
  * Data de criação: 15/11/2024
  * 
  * Histórico de versões:
- *    - v1.0 - 15/11/2024: criada funçoes criar mapa e apagar mapa
- *    - v1.1 - 16/11/2024: criada funções mostrar mapa e preencher mapa
- *    - v1.2 - 20/11/2024: criado função de leitura de arquivo para o labirinto
+ *    - v1.0 (gabriel)- 15/11/2024: criada funçoes criar mapa e apagar mapa
+ *    - v1.1 (gabriel)- 16/11/2024: criada funções mostrar mapa e preencher mapa
+ *    - v1.2 (matheus)- 20/11/2024: criada função insere labirinto
  * 
  * Dependências:
  *    - mapa.h
+ *    - utilites.h
+ *    - pilha.h
  * 
  * Observações:
  *    - 
