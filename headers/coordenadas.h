@@ -7,4 +7,9 @@ typedef struct  coordenadas
 }
 coordenadas;
 
+//ponteiro pra estrutura de coordenadas
+typedef coordenadas* ApontadorCoordenadas;
+
+
 #endif
+

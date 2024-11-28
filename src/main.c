@@ -1,16 +1,20 @@
-#include "../headers/mapa.h"
-#include "../headers/backtracking.h"
+#include "../headers/menu.h"
 
 int main()
 {
-    Mapa mapa = NULL;
-    estudante aluno;
-    coordenadas dimensao;
-
-    InsereLabirinto(&mapa, "labirinto.txt", &aluno, &dimensao);
-    ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
+    limparTerminalUnix();
+    logo();
+    menuPrincipal();
     return 0;
 }
+
+    //NAO APAGAR ESSE CODIGO ABAIXO 
+    // Mapa mapa = NULL;
+    // estudante aluno;
+    // coordenadas dimensao;
+
+    // InsereLabirinto(&mapa, "labirinto", &aluno, &dimensao);
+    // ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
 
 /*
 main()

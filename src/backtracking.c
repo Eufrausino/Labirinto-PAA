@@ -1,5 +1,5 @@
 #include "../headers/backtracking.h"
-#include "../headers/pilha.h"
+#include "../headers/pilha.h" 
 
 int movimenta_estudante(int eixoX, int eixoY, Mapa mapa, estudante aluno, coordenadas dimensao)
 {
