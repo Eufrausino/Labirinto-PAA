@@ -26,6 +26,7 @@
  **************************************************************/
 
 #include "../headers/menu.h"
+#include "../headers/analise.h"
 
 void logo(){
    printf("                                                                                \n");
@@ -144,7 +145,20 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
 
 void opcao2(Mapa mapa,estudante aluno,coordenadas dimensao){
     limparTerminalUnix();
-    ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
+    if(mapa != NULL)
+    {
+        #ifndef ANALISE
+            ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
+            #else
+                exploraAnalise(mapa, dimensao.x, dimensao.y, aluno);
+                resultadoAnalise();
+        #endif
+    }
+    else
+    {
+        printf("Sem labirinto a ser explorado! Tente novamente\n");
+        return;
+    }
 }
 
 //proximas funçoes 

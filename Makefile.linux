@@ -1,5 +1,7 @@
+CFLAGS ?=
+
 compile:
-	gcc src/backtracking.c src/main.c src/mapa.c src/menu.c src/pilha.c src/utilites.c -o output/exe.out
+	gcc $(CFLAGS) src/backtracking.c src/main.c src/mapa.c src/menu.c src/pilha.c src/utilites.c -o output/exe.out
 
 run:
 	./output/exe.out

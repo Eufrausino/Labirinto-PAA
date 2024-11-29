@@ -26,5 +26,6 @@
 
 void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno);
 int movimenta_estudante(int eixoX, int eixoY, Mapa mapa, estudante aluno, coordenadas dimensao);
-
+void exploraAnalise(Mapa mapa, int linhas, int colunas, estudante aluno);
+void resultadoAnalise();
 #endif

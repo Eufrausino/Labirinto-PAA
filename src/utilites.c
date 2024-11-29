@@ -52,12 +52,14 @@ void mudarCorTexto(int numeroNaMatriz) {
         printf("\033[0;31m"); //vermelho
         break;
     case 4:
-        printf("\033[0;33m]"); //amarelo
+        printf("\033[0;33m"); //amarelo
+        break;
     case 0:
         printf("\033[0;32m"); //verde
         break;
     
     default:
+        printf("\033[0m"); // padrão (cor original)
         break;
     }
 
