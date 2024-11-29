@@ -18,9 +18,12 @@
 #ifndef ESTUDANTE_H
 #define ESTUDANTE_H
 
+#include "coordenadas.h"
+
 typedef struct estudante
 {
 	int chaves_no_bolso;
+	coordenadas pos_chave;
 }
 estudante;
 

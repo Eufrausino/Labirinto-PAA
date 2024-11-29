@@ -158,7 +158,7 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coo
             for (int j = 0; j < qtdColunas; j++)
             {
                 // Converte cada caractere da linha para o valor inteiro correspondente
-                if (linhaArquivo[j] >= '0' && linhaArquivo[j] <= '3')
+                if (linhaArquivo[j] >= '0' && linhaArquivo[j] <= '4')
                 {
                     valores[j] = linhaArquivo[j] - '0';
                 }else{

@@ -37,7 +37,7 @@ int movimenta_estudante(int eixoX, int eixoY, Mapa mapa, estudante aluno, coorde
     if(eixoX >= 0 && eixoY >=0 && eixoX < dimensao.x && eixoY < dimensao.y)
     {
         //Se caminho livre ou se porta e estudante com chave -> movimento permitido
-        if(mapa[eixoX][eixoY] == 1 || (mapa[eixoX][eixoY] == 3 && aluno.chaves_no_bolso >= 1))
+        if(mapa[eixoX][eixoY] == 1 || mapa[eixoX][eixoY] == 4 || (mapa[eixoX][eixoY] == 3 && aluno.chaves_no_bolso >= 1))
         {
             printf("Linha: %d Coluna: %d\n",eixoX,eixoY);
             return 1;
@@ -105,6 +105,13 @@ void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno)
             if(movimenta_estudante(x_atual, y_atual, mapa, aluno, dimensao))
             {
                 empilha(stack, x_atual, y_atual);
+                if(mapa[x_atual][y_atual] == 3) aluno.chaves_no_bolso --;
+                if(mapa[x_atual][y_atual] == 4)
+                {
+                    aluno.chaves_no_bolso++;
+                    aluno.pos_chave.x = x_atual;
+                    aluno.pos_chave.y = y_atual;
+                }
                 moveu = 1;
                 break;
             }
@@ -113,6 +120,12 @@ void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno)
         if(!moveu)
         {
             desempilha(stack);
+            if(olhaTopo(stack).x == aluno.pos_chave.x && olhaTopo(stack).y == aluno.pos_chave.y)
+            {
+                mapa[aluno.pos_chave.x][aluno.pos_chave.y] = 4;
+                aluno.chaves_no_bolso--;
+                printf("Aluno devolveu a chave na posição (%d,%d)\n", aluno.pos_chave.x,aluno.pos_chave.y);
+            }
             if(!pilhaVazia(stack))
             {
                 coordenadas topo = olhaTopo(stack);
@@ -189,6 +202,13 @@ void exploraAnalise(Mapa mapa, int linhas, int colunas, estudante aluno)
             if(movimenta_estudante(x_atual, y_atual, mapa, aluno, dimensao))
             {
                 empilha(stack, x_atual, y_atual);
+                if(mapa[x_atual][y_atual] == 3) aluno.chaves_no_bolso --;
+                if(mapa[x_atual][y_atual] == 4)
+                {
+                    aluno.chaves_no_bolso++;
+                    aluno.pos_chave.x = x_atual;
+                    aluno.pos_chave.y = y_atual;
+                }
                 moveu = 1;
                 
                 //Contagem de chamadas recursivas
@@ -221,6 +241,12 @@ void exploraAnalise(Mapa mapa, int linhas, int colunas, estudante aluno)
         if(!moveu)
         {
             desempilha(stack);
+            if(olhaTopo(stack).x == aluno.pos_chave.x && olhaTopo(stack).y == aluno.pos_chave.y)
+            {
+                mapa[aluno.pos_chave.x][aluno.pos_chave.y] = 4;
+                aluno.chaves_no_bolso--;
+                printf("Aluno devolveu a chave na posição (%d,%d)\n", aluno.pos_chave.x,aluno.pos_chave.y);
+            }
             if(!pilhaVazia(stack))
             {
                 coordenadas topo = olhaTopo(stack);
