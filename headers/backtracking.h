@@ -23,9 +23,10 @@
 #include "mapa.h"
 #include "coordenadas.h"
 #include "estudante.h"
+#include "pilha.h"
 
 void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno);
-int movimenta_estudante(int eixoX, int eixoY, Mapa mapa, estudante aluno, coordenadas dimensao);
+int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *cont, pilha* stack, int *moveX, int *moveY, coordenadas posicao);
 void exploraAnalise(Mapa mapa, int linhas, int colunas, estudante aluno);
 void resultadoAnalise();
 #endif
