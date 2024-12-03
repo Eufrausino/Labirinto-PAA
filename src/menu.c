@@ -61,31 +61,37 @@ void menuPrincipal(){
 
 
 
-    do{
+    int cont = 0;
+    while(1){
         printf("\n\n");
         printf("Opcoes do programa:\n");
         printf("1) Carregar novo arquivo de dados.\n");
         printf("2) Processar e exibir resposta.\n");
-        printf("3 ou qualquer outro caracter) Sair do programa.\n");
+        printf("3 ou maior) Sair do programa.\n");
         printf("\nDigite um numero: ");
         scanf("%d", &opcao);
-
-        switch(opcao){
-            
-            case 1:
-                opcao1(guardaMapa, &aluno, &dimensao);
-                break;
-            case 2:
-                opcao2(mapa, aluno, dimensao);
-                break;
-            case 3:
-                printf("Saindo do sistema...\n");
-                break;
-            default:
-                printf("Opcao invalida!\n");
-                break;
+        
+        if(opcao == 1){
+            opcao1(guardaMapa, &aluno, &dimensao);
+            cont = 0;
         }
-    }while(opcao < 3);
+        else if(opcao == 2){
+            
+            printf("opção: %d\n", opcao);
+            cont++;
+            
+            if(cont > 1){
+                printf("\n\n***Por favor, digite a opção 1***\n");
+                menuPrincipal();
+            }
+            opcao2(mapa, aluno, dimensao);
+            
+        }
+        else if(opcao >= 3){
+            printf("Saindo do sistema...\n");
+            break;
+        }
+    }
 
 }
 
@@ -111,6 +117,7 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
             MostrarMapa((*mapa), (*dimensao).x, dimensao->y);
             pressEnter();
             limparTerminalUnix();
+            return;
         }
         else return;
  
@@ -146,20 +153,19 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
 
 void opcao2(Mapa mapa,estudante aluno,coordenadas dimensao){
     limparTerminalUnix();
-    if(mapa != NULL)
-    {
-        #ifndef ANALISE
+    if(*mapa != NULL){
+
+        #ifndef ANALISE 
             ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
             #else
-                exploraAnalise(mapa, dimensao.x, dimensao.y, aluno);
+                ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
                 resultadoAnalise();
         #endif
     }
-    else
-    {
+    else {
         printf("Sem labirinto a ser explorado! Tente novamente\n");
         return;
     }
 }
 
-//proximas funçoes 
+
