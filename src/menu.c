@@ -83,8 +83,9 @@ void menuPrincipal(){
                 break;
             default:
                 printf("Opcao invalida!\n");
+                break;
         }
-    }while(opcao != 3);
+    }while(opcao < 3);
 
 }
 

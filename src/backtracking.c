@@ -111,7 +111,6 @@ int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *c
 	}
 	(*cont)++;
 	return movimenta_estudante(mapa, aluno, dimensao, cont, stack, moveX, moveY, posicao);
-
 }
 
 
@@ -128,13 +127,8 @@ void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno){
         }
     }
     coordenadas dimensao;
-
-    //define dimensão do mapa
-    dimensao.x = linhas;
-    dimensao.y = colunas;
-
-    //cria pilha que guarda as movimentações do backtracking
-    pilha* stack = criaPilha(dimensao.x*dimensao.y);
+    coordenadas dimensao = {linhas, colunas};
+    pilha* stack = criaPilha(dimensao.x * dimensao.y);
     empilha(stack, posicao.x, posicao.y);
     printf("Linha: %d Coluna: %d\n", posicao.x, posicao.y);
 
