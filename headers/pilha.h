@@ -3,7 +3,7 @@
  * Projeto: Labirinto-PAA
  * Descrição: 
  * 
- * Autor(es):
+ * Autor(es): 
  * Data de criação: 27/11/2024
  * 
  * Histórico de versões:

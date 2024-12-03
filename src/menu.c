@@ -63,7 +63,7 @@ void menuPrincipal(){
         printf("Opcoes do programa:\n");
         printf("1) Carregar novo arquivo de dados.\n");
         printf("2) Processar e exibir resposta.\n");
-        printf("3 ou qualquer outro caracter) Sair do programa.\n");
+        printf("3) Encerrar o programa.\n");
         printf("\nDigite um numero: ");
         scanf("%d", &opcao);
 
@@ -73,8 +73,9 @@ void menuPrincipal(){
                 permitir = 1;
                 break;
             case 2:
+                limparTerminalUnix();
                 if(permitir != 1){
-                    printf("Por favor, insira um mapa antes (opção 1)\n");
+                    printf("Por favor, carregue antes um arquivo de dados!\n");
                     pressEnter();;
                     break;
                 }
@@ -86,7 +87,8 @@ void menuPrincipal(){
                 printf("Saindo do sistema...\n");
                 break;
             default:
-                printf("Opcao invalida!\n");
+                limparTerminalUnix();
+                printf("Opcao invalida! tente outra\n");
         }
 
     }while(opcao != 3);
