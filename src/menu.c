@@ -45,6 +45,7 @@ void logo(){
 
 }
 
+
 void menuPrincipal(){
     int opcao;
 
@@ -53,42 +54,49 @@ void menuPrincipal(){
     ApontadorMapa guardaMapa = NULL;
     Mapa mapa = NULL;
     guardaMapa = &mapa;
+
     estudante aluno;
     coordenadas dimensao;
 
     //ApontadorMapa mapa = NULL; //inicialmente nao guarda mapa nenhum
 
+    int permitir = 0;
 
 
-    int cont = 0;
-    while(1){
+    do{
         printf("\n\n");
         printf("Opcoes do programa:\n");
         printf("1) Carregar novo arquivo de dados.\n");
         printf("2) Processar e exibir resposta.\n");
-        printf("3 ou maior) Sair do programa.\n");
+        printf("3 ou qualquer outro caracter) Sair do programa.\n");
         printf("\nDigite um numero: ");
         scanf("%d", &opcao);
 
-        if(opcao == 1){
-            opcao1(guardaMapa, &aluno, &dimensao);
-            cont = 0;
-        }
-        else if(opcao == 2){
-            printf("opção: %d\n", opcao);
-            cont++;
+        switch(opcao){
             
-            if(cont > 1){
-                printf("\n\n***Por favor, digite a opção 1***\n");
-                menuPrincipal();
-            }
-            opcao2(mapa, aluno, dimensao);
+            case 1:
+                opcao1(guardaMapa, &aluno, &dimensao);
+                permitir = 1;
+                break;
+            case 2:
+                if(permitir != 1){
+                    printf("Por favor, insira um mapa antes (opção 1)\n");
+                    pressEnter();;
+                    break;
+                }
+                else{
+                    opcao2(mapa, aluno, dimensao);
+                    break;
+                }
+            case 3:
+                printf("Saindo do sistema...\n");
+                break;
+            default:
+                printf("Opcao invalida!\n");
         }
-        else if(opcao != 1 || opcao != 2){
-            printf("Saindo do sistema...\n");
-            break;
-        }
-    }
+        
+    }while(opcao != 3);
+
 
 }
 
@@ -114,7 +122,6 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
             MostrarMapa((*mapa), (*dimensao).x, dimensao->y);
             pressEnter();
             limparTerminalUnix();
-            return;
             return;
         }
         else return;
@@ -142,6 +149,7 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
             MostrarMapa((*mapa), (*dimensao).x, dimensao->y);
             pressEnter();
             limparTerminalUnix();
+            return;
         }
         else return;
     }

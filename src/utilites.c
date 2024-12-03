@@ -70,4 +70,5 @@ void pressEnter(){
 while (getchar() != '\n'); // Limpa o buffer até o Enter
 printf("\n\nPressione Enter para continuar...");
 getchar();
+limparTerminalUnix();
 }
