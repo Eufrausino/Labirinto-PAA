@@ -113,7 +113,8 @@ int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *c
 	    desempilha(stack);
 	    if(!pilhaVazia(stack)){
 			coordenadas topo = olhaTopo(stack);
-			if(topo.x == aluno.pos_chave.x && topo.y == aluno.pos_chave.y){
+			if(topo.x == aluno.pos_chave.x && topo.y == aluno.pos_chave.y && aluno.chaves_no_bolso > 0){
+			    aluno.chaves_no_bolso--;
 			    mapa[aluno.pos_chave.x][aluno.pos_chave.y] = 4;
 			    printf("Aluno devolveu a chave na posição (%d %d)\n", aluno.pos_chave.x, aluno.pos_chave.y);
 			}
