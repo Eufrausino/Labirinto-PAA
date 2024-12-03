@@ -56,7 +56,7 @@ int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *c
 	for(int i = 0; i < 4; i++){
 	    int x_atual = posicao.x + moveX[i];
 	    int y_atual = posicao.y + moveY[i];
-		
+		//Chamadas recursivas
 		#ifdef ANALISE
 			contagemRecursiva++;
 		#endif
@@ -82,7 +82,7 @@ int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *c
 			empilha(stack, x_atual, y_atual);
 			moveu = 1;
 
-			//Contagem de chamadas recursivas
+			//Recursividade máxima
 			#ifdef ANALISE
 				topo = olhaTopo(stack);
 				if(contagemRecursiva > 1)
