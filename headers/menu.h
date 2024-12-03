@@ -30,8 +30,6 @@
 #include "../headers/pilha.h"
 #include "../headers/utilites.h"
 
-
-
 void menuPrincipal();
 void logo();
 void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas dimensao);
