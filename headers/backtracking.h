@@ -26,8 +26,7 @@
 #include "pilha.h"
 
 void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno);
-int movimenta_estudante(int eixoX, int eixoY, Mapa mapa, estudante aluno, coordenadas dimensao, pilha* stack, int* moveu, int* cont, int* moveX, int* moveY);
-int movimentaAnalise(int eixoX, int eixoY, Mapa mapa, estudante aluno, coordenadas dimensao, pilha* stack, int* moveu, int* cont, int* moveX, int* moveY);
+int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *cont, pilha* stack, int *moveX, int *moveY, coordenadas posicao);
 void exploraAnalise(Mapa mapa, int linhas, int colunas, estudante aluno);
 void resultadoAnalise();
 #endif
