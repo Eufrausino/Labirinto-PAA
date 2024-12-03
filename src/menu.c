@@ -111,6 +111,7 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
             MostrarMapa((*mapa), (*dimensao).x, dimensao->y);
             pressEnter();
             limparTerminalUnix();
+            return;
         }
         else return;
  
@@ -154,12 +155,14 @@ void opcao2(Mapa mapa,estudante aluno,coordenadas dimensao){
                 exploraAnalise(mapa, dimensao.x, dimensao.y, aluno);
                 resultadoAnalise();
         #endif
+        return;
     }
     else
     {
         printf("Sem labirinto a ser explorado! Tente novamente\n");
         return;
     }
+    return;
 }
 
 //proximas funçoes 
