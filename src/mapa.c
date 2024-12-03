@@ -19,14 +19,13 @@
  * Observações:
  *    - 
  **************************************************************/
+
 #include "../headers/mapa.h"
 #include "../headers/pilha.h"
 #include "../headers/utilites.h"
 /*
-
        int***       --> int**                --> int*     --> int
 ponteiro pra matriz     ponteiro pra linha       vetor de inteiros 
-
 
 */
 
@@ -117,7 +116,7 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coo
     int qtdLinhas, qtdColunas, qtdChaves;
     int mapaCarregado = 1;
 
-    snprintf(caminhoArquivo, sizeof(caminhoArquivo), "../%s.txt", Labirinto);
+    snprintf(caminhoArquivo, sizeof(caminhoArquivo), "../arquivos/%s.txt", Labirinto);
     //printf("%s\n", caminhoArquivo);
 
     labirinto = fopen(caminhoArquivo, "r");
@@ -189,10 +188,7 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coo
     
 }
 
-
 //Modificar valor da matriz
-
-//verificar se a matriz está vazia
 
 //FUTURAMENTE mostrar posição do aluno de Programação 
 

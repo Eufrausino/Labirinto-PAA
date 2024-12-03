@@ -45,24 +45,19 @@ void logo(){
 
 }
 
-
 void menuPrincipal(){
     int opcao;
 
     //instanciei o mapa, aluno e dimensoes 
-   
     ApontadorMapa guardaMapa = NULL;
     Mapa mapa = NULL;
     guardaMapa = &mapa;
 
     estudante aluno;
     coordenadas dimensao;
-
     //ApontadorMapa mapa = NULL; //inicialmente nao guarda mapa nenhum
 
     int permitir = 0;
-
-
     do{
         printf("\n\n");
         printf("Opcoes do programa:\n");
@@ -72,8 +67,7 @@ void menuPrincipal(){
         printf("\nDigite um numero: ");
         scanf("%d", &opcao);
 
-        switch(opcao){
-            
+        switch(opcao){    
             case 1:
                 opcao1(guardaMapa, &aluno, &dimensao);
                 permitir = 1;
@@ -94,10 +88,8 @@ void menuPrincipal(){
             default:
                 printf("Opcao invalida!\n");
         }
-        
+
     }while(opcao != 3);
-
-
 }
 
 void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas dimensao){
@@ -153,8 +145,6 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
         }
         else return;
     }
-    
-    //TENHO Q OLHAR  SE MAPA JA EXISTE E DEPOIS APAGAR O QUE JATA E SOBREESCREVER 
 }
 
 void opcao2(Mapa mapa,estudante aluno,coordenadas dimensao){
