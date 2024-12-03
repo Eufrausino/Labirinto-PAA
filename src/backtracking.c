@@ -58,7 +58,7 @@ int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *c
 	for(int i = 0; i < 4; i++){
 	    int x_atual = posicao.x + moveX[i];
 	    int y_atual = posicao.y + moveY[i];
-		
+		//Chamadas recursivas
 		#ifdef ANALISE
 			contagemRecursiva++;
 		#endif
@@ -69,7 +69,14 @@ int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *c
 		if(x_atual >= 0 && y_atual >=0 && x_atual < dimensao.x && y_atual < dimensao.y){
 
 			//Se caminho livre ou se porta e estudante com chave -> movimento permitido
-			if(mapa[x_atual][y_atual] == 1 || (mapa[x_atual][y_atual] == 3 && aluno.chaves_no_bolso >= 1)){
+			if(mapa[x_atual][y_atual] == 1 || mapa[x_atual][y_atual] == 4 || (mapa[x_atual][y_atual] == 3 && aluno.chaves_no_bolso >= 1)){
+			    if(mapa[x_atual][y_atual] == 3) aluno.chaves_no_bolso--;
+			    if(mapa[x_atual][y_atual] == 4)
+			    {
+				aluno.chaves_no_bolso++;
+				aluno.pos_chave.x = x_atual;
+				aluno.pos_chave.y = y_atual;
+			    } 
 			    printf("Linha: %d Coluna: %d\n",x_atual,y_atual);
 			    ehMovimentavel = 1;
 			}
@@ -79,7 +86,7 @@ int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *c
 			moveu = 1;
 			//(*cont)++;
 
-			//Contagem de chamadas recursivas
+			//Recursividade máxima
 			#ifdef ANALISE
 				topo = olhaTopo(stack);
 				if(contagemRecursiva > 1){
@@ -109,6 +116,11 @@ int movimenta_estudante(Mapa mapa, estudante aluno, coordenadas dimensao, int *c
 	    desempilha(stack);
 	    if(!pilhaVazia(stack)){
 			coordenadas topo = olhaTopo(stack);
+			if(topo.x == aluno.pos_chave.x && topo.y == aluno.pos_chave.y && aluno.chaves_no_bolso > 0){
+			    aluno.chaves_no_bolso--;
+			    mapa[aluno.pos_chave.x][aluno.pos_chave.y] = 4;
+			    printf("Aluno devolveu a chave na posição (%d %d)\n", aluno.pos_chave.x, aluno.pos_chave.y);
+			}
 			printf("Linha: %d Coluna: %d\n", topo.x, topo.y);
 	    }
 	}

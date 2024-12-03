@@ -53,7 +53,6 @@ void menuPrincipal(){
     ApontadorMapa guardaMapa = NULL;
     Mapa mapa = NULL;
     guardaMapa = &mapa;
-
     estudante aluno;
     coordenadas dimensao;
 
@@ -70,13 +69,12 @@ void menuPrincipal(){
         printf("3 ou maior) Sair do programa.\n");
         printf("\nDigite um numero: ");
         scanf("%d", &opcao);
-        
+
         if(opcao == 1){
             opcao1(guardaMapa, &aluno, &dimensao);
             cont = 0;
         }
         else if(opcao == 2){
-            
             printf("opção: %d\n", opcao);
             cont++;
             
@@ -85,9 +83,8 @@ void menuPrincipal(){
                 menuPrincipal();
             }
             opcao2(mapa, aluno, dimensao);
-            
         }
-        else if(opcao >= 3){
+        else if(opcao != 1 || opcao != 2){
             printf("Saindo do sistema...\n");
             break;
         }
@@ -117,6 +114,7 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
             MostrarMapa((*mapa), (*dimensao).x, dimensao->y);
             pressEnter();
             limparTerminalUnix();
+            return;
             return;
         }
         else return;
@@ -161,11 +159,13 @@ void opcao2(Mapa mapa,estudante aluno,coordenadas dimensao){
                 ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
                 resultadoAnalise();
         #endif
+        return;
     }
     else {
         printf("Sem labirinto a ser explorado! Tente novamente\n");
         return;
     }
+    return;
 }
 
 
