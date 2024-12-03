@@ -31,188 +31,128 @@ pilha* auxiliar;
 
 #endif
 
-int movimenta_estudante(int eixoX, int eixoY, Mapa mapa, estudante aluno, coordenadas dimensao)
+int movimenta_estudante(int eixoX, int eixoY, Mapa mapa, estudante aluno, coordenadas dimensao, pilha* stack, int* moveu, int* cont, int* moveX, int* moveY)
 {
-    //Confere posição do movimento está dentro do mapa
-    if(eixoX >= 0 && eixoY >=0 && eixoX < dimensao.x && eixoY < dimensao.y)
-    {
-        //Se caminho livre ou se porta e estudante com chave -> movimento permitido
-        if(mapa[eixoX][eixoY] == 1 || mapa[eixoX][eixoY] == 4 || (mapa[eixoX][eixoY] == 3 && aluno.chaves_no_bolso >= 1))
-        {
-            printf("Linha: %d Coluna: %d\n",eixoX,eixoY);
-            return 1;
+    if (pilhaVazia(stack)) return 0;
+
+    coordenadas posicao = olhaTopo(stack);
+    if (posicao.x == 0) return 1;
+
+    *moveu = 0;  // Inicializa moveu como 0
+    mapa[posicao.x][posicao.y] = -1;
+
+    for (int i = 0; i < 4; i++) {
+        eixoX = posicao.x + moveX[i];
+        eixoY = posicao.y + moveY[i];
+
+        // Verifica limites do mapa
+        if (eixoX < 0 || eixoX >= dimensao.x || eixoY < 0 || eixoY >= dimensao.y) continue;
+
+        if (mapa[eixoX][eixoY] == 1 || mapa[eixoX][eixoY] == 4 || 
+           (mapa[eixoX][eixoY] == 3 && aluno.chaves_no_bolso >= 1)) {
+            empilha(stack, eixoX, eixoY);
+            printf("Linha: %d Coluna: %d\n", eixoX, eixoY);
+            if (mapa[eixoX][eixoY] == 3) aluno.chaves_no_bolso--;
+            if (mapa[eixoX][eixoY] == 4) {
+                aluno.chaves_no_bolso++;
+                aluno.pos_chave.x = eixoX;
+                aluno.pos_chave.y = eixoY;
+            }
+            *moveu = 1;
+            break;
         }
     }
-    return 0;
+
+    if (!*moveu) {
+        desempilha(stack);
+        if (!pilhaVazia(stack)) {
+            coordenadas topo = olhaTopo(stack);
+            if (topo.x == aluno.pos_chave.x && topo.y == aluno.pos_chave.y) {
+                mapa[aluno.pos_chave.x][aluno.pos_chave.y] = 4;
+                aluno.chaves_no_bolso--;
+                printf("Aluno devolveu a chave na posição (%d,%d)\n", aluno.pos_chave.x, aluno.pos_chave.y);
+            }
+            printf("Linha: %d Coluna: %d\n", topo.x, topo.y);
+        }
+    }
+
+    (*cont)++;
+    return movimenta_estudante(eixoX, eixoY, mapa, aluno, dimensao, stack, moveu, cont, moveX, moveY);
 }
 
 void ExploraLabirinto(Mapa mapa, int linhas, int colunas, estudante aluno)
 {
     coordenadas posicao;
-    //Determina ponto de partida do mapa
-    for(int i = 0; i < linhas; i++)
-    {
-        for(int j = 0; j < colunas; j++)
-        {
-            if(mapa[i][j] == 0)
-            {
+
+    // Determina ponto de partida do mapa
+    for (int i = 0; i < linhas; i++) {
+        for (int j = 0; j < colunas; j++) {
+            if (mapa[i][j] == 0) {
                 posicao.x = i;
                 posicao.y = j;
                 break;
             }
         }
     }
-    coordenadas dimensao;
-    coordenadas ponto_partida;
-    ponto_partida.x = posicao.x;
-    ponto_partida.y = posicao.y;
 
-    //define dimensão do mapa
-    dimensao.x = linhas;
-    dimensao.y = colunas;
-
-    //cria pilha que guarda as movimentações do backtracking
-    pilha* stack = criaPilha(dimensao.x*dimensao.y);
+    coordenadas dimensao = {linhas, colunas};
+    pilha* stack = criaPilha(dimensao.x * dimensao.y);
     empilha(stack, posicao.x, posicao.y);
     printf("Linha: %d Coluna: %d\n", posicao.x, posicao.y);
+
     int cont = 0;
+    int moveX[] = {-1, 1, 0, 0};
+    int moveY[] = {0, 0, -1, 1};
+    int moveu = 0;
 
-    int moveX[] = {-1,1,0,0};
-    int moveY[] = {0,0,-1,1};
-    int moveu;
+    int k = movimenta_estudante(posicao.x, posicao.y, mapa, aluno, dimensao, stack, &moveu, &cont, moveX, moveY);
 
-    while(!pilhaVazia(stack))
+    if (k == 1)
     {
-        posicao.x = olhaTopo(stack).x;
-        posicao.y = olhaTopo(stack).y;
-        //passo base, se chegou na linha 0. Sucesso saiu do labirinto
-        if(posicao.x == 0)
-        {
-            printf("\nO estudante se moveu %d vezes e chegou na coluna %d da primeira linha\n", cont, posicao.y);
-
-            destroiPilha(stack);
-            return;
-        }
-        //Marca onde passou no labirinto
-        mapa[posicao.x][posicao.y] = -1;
-        moveu = 0;
-
-        for(int i = 0; i < 4; i++)
-        {
-            int x_atual = posicao.x + moveX[i];
-            int y_atual = posicao.y + moveY[i];
-
-            if(movimenta_estudante(x_atual, y_atual, mapa, aluno, dimensao))
-            {
-                empilha(stack, x_atual, y_atual);
-                if(mapa[x_atual][y_atual] == 3) aluno.chaves_no_bolso --;
-                if(mapa[x_atual][y_atual] == 4)
-                {
-                    aluno.chaves_no_bolso++;
-                    aluno.pos_chave.x = x_atual;
-                    aluno.pos_chave.y = y_atual;
-                }
-                moveu = 1;
-                break;
-            }
-        }
-
-        if(!moveu)
-        {
-            desempilha(stack);
-            if(olhaTopo(stack).x == aluno.pos_chave.x && olhaTopo(stack).y == aluno.pos_chave.y)
-            {
-                mapa[aluno.pos_chave.x][aluno.pos_chave.y] = 4;
-                aluno.chaves_no_bolso--;
-                printf("Aluno devolveu a chave na posição (%d,%d)\n", aluno.pos_chave.x,aluno.pos_chave.y);
-            }
-            if(!pilhaVazia(stack))
-            {
-                coordenadas topo = olhaTopo(stack);
-                printf("Linha: %d Coluna: %d\n", topo.x, topo.y);
-            }
-        }
-        cont++;
+        printf("\nO estudante se moveu %d vezes e chegou na coluna %d da primeira linha\n", cont, posicao.y);
     }
-    printf("\nO estudante se moveu %d e percebeu que o labirinto não tem saída!\n", cont);
+    else
+    {
+        printf("\nO estudante se moveu %d vezes e percebeu que o labirinto não tem saída!\n", cont);
+    }
     destroiPilha(stack);
     return;
 }
 
-void exploraAnalise(Mapa mapa, int linhas, int colunas, estudante aluno)
+int movimentaAnalise(int eixoX, int eixoY, Mapa mapa, estudante aluno, coordenadas dimensao, pilha* stack, int* moveu, int* cont, int* moveX, int* moveY)
 {
-    coordenadas posicao;
-    //Determina ponto de partida do mapa
-    for(int i = 0; i < linhas; i++)
-    {
-        for(int j = 0; j < colunas; j++)
-        {
-            if(mapa[i][j] == 0)
-            {
-                posicao.x = i;
-                posicao.y = j;
-                break;
+
+    if (pilhaVazia(stack)) return 0;
+
+    coordenadas posicao = olhaTopo(stack);
+
+    if (posicao.x == 0) return 1;
+
+    *moveu = 0;  // Inicializa moveu como 0
+    mapa[posicao.x][posicao.y] = -1;
+
+    for (int i = 0; i < 4; i++) {
+        eixoX = posicao.x + moveX[i];
+        eixoY = posicao.y + moveY[i];
+        #ifdef ANALISE
+            contagemRecursiva++;
+        #endif
+        // Verifica limites do mapa
+        if (eixoX < 0 || eixoX >= dimensao.x || eixoY < 0 || eixoY >= dimensao.y) continue;
+
+        if (mapa[eixoX][eixoY] == 1 || mapa[eixoX][eixoY] == 4 || 
+           (mapa[eixoX][eixoY] == 3 && aluno.chaves_no_bolso >= 1)) {
+            empilha(stack, eixoX, eixoY);
+            printf("Linha: %d Coluna: %d\n", eixoX, eixoY);
+            if (mapa[eixoX][eixoY] == 3) aluno.chaves_no_bolso--;
+            if (mapa[eixoX][eixoY] == 4) {
+                aluno.chaves_no_bolso++;
+                aluno.pos_chave.x = eixoX;
+                aluno.pos_chave.y = eixoY;
             }
-        }
-    }
-    coordenadas dimensao;
-    coordenadas ponto_partida;
-    ponto_partida.x = posicao.x;
-    ponto_partida.y = posicao.y;
-
-    //define dimensão do mapa
-    dimensao.x = linhas;
-    dimensao.y = colunas;
-
-    //cria pilha que guarda as movimentações do backtracking
-    pilha* stack = criaPilha(dimensao.x*dimensao.y);
-    empilha(stack, posicao.x, posicao.y);
-    printf("Linha: %d Coluna: %d\n", posicao.x, posicao.y);
-    int cont = 0;
-
-    int moveX[] = {-1,1,0,0};
-    int moveY[] = {0,0,-1,1};
-    int moveu;
-
-    while(!pilhaVazia(stack))
-    {
-        posicao.x = olhaTopo(stack).x;
-        posicao.y = olhaTopo(stack).y;
-        //passo base, se chegou na linha 0. Sucesso saiu do labirinto
-        if(posicao.x == 0)
-        {
-            printf("\nO estudante se moveu %d vezes e chegou na coluna %d da primeira linha\n", cont, posicao.y);
-
-            destroiPilha(stack);
-            return;
-        }
-        //Marca onde passou no labirinto
-        mapa[posicao.x][posicao.y] = -1;
-        moveu = 0;
-
-        for(int i = 0; i < 4; i++)
-        {
-            int x_atual = posicao.x + moveX[i];
-            int y_atual = posicao.y + moveY[i];
+            *moveu = 1;
 
             #ifdef ANALISE
-                contagemRecursiva++;
-            #endif
-
-            if(movimenta_estudante(x_atual, y_atual, mapa, aluno, dimensao))
-            {
-                empilha(stack, x_atual, y_atual);
-                if(mapa[x_atual][y_atual] == 3) aluno.chaves_no_bolso --;
-                if(mapa[x_atual][y_atual] == 4)
-                {
-                    aluno.chaves_no_bolso++;
-                    aluno.pos_chave.x = x_atual;
-                    aluno.pos_chave.y = y_atual;
-                }
-                moveu = 1;
-                
-                //Contagem de chamadas recursivas
-                #ifdef ANALISE
                     topo = olhaTopo(stack);
                     if(contagemRecursiva > 1)
                     {
@@ -232,30 +172,63 @@ void exploraAnalise(Mapa mapa, int linhas, int colunas, estudante aluno)
                         empilha(stack, aux.x, aux.y);
                     }
                     destroiPilha(auxiliar);
-                #endif
+            #endif
+            break;
+        }
+    }
 
+    if (!*moveu) {
+        desempilha(stack);
+        if (!pilhaVazia(stack)) {
+            coordenadas topo = olhaTopo(stack);
+            if (topo.x == aluno.pos_chave.x && topo.y == aluno.pos_chave.y) {
+                mapa[aluno.pos_chave.x][aluno.pos_chave.y] = 4;
+                aluno.chaves_no_bolso--;
+                printf("Aluno devolveu a chave na posição (%d,%d)\n", aluno.pos_chave.x, aluno.pos_chave.y);
+            }
+            printf("Linha: %d Coluna: %d\n", topo.x, topo.y);
+        }
+    }
+
+    (*cont)++;
+    return movimentaAnalise(eixoX, eixoY, mapa, aluno, dimensao, stack, moveu, cont, moveX, moveY);
+}
+
+void exploraAnalise(Mapa mapa, int linhas, int colunas, estudante aluno)
+{
+    coordenadas posicao;
+
+    // Determina ponto de partida do mapa
+    for (int i = 0; i < linhas; i++) {
+        for (int j = 0; j < colunas; j++) {
+            if (mapa[i][j] == 0) {
+                posicao.x = i;
+                posicao.y = j;
                 break;
             }
         }
-
-        if(!moveu)
-        {
-            desempilha(stack);
-            if(olhaTopo(stack).x == aluno.pos_chave.x && olhaTopo(stack).y == aluno.pos_chave.y)
-            {
-                mapa[aluno.pos_chave.x][aluno.pos_chave.y] = 4;
-                aluno.chaves_no_bolso--;
-                printf("Aluno devolveu a chave na posição (%d,%d)\n", aluno.pos_chave.x,aluno.pos_chave.y);
-            }
-            if(!pilhaVazia(stack))
-            {
-                coordenadas topo = olhaTopo(stack);
-                printf("Linha: %d Coluna: %d\n", topo.x, topo.y);
-            }
-        }
-        cont++;
     }
-    printf("\nO estudante se moveu %d e percebeu que o labirinto não tem saída!\n", cont);
+
+    coordenadas dimensao = {linhas, colunas};
+    pilha* stack = criaPilha(dimensao.x * dimensao.y);
+    empilha(stack, posicao.x, posicao.y);
+    printf("Linha: %d Coluna: %d\n", posicao.x, posicao.y);
+
+    int cont = 0;
+    int moveX[] = {-1, 1, 0, 0};
+    int moveY[] = {0, 0, -1, 1};
+    int moveu = 0;
+
+    int k = movimentaAnalise(posicao.x, posicao.y, mapa, aluno, dimensao, stack, &moveu, &cont, moveX, moveY);
+
+    if (k == 1)
+    {
+        printf("\nO estudante se moveu %d vezes e chegou na coluna %d da primeira linha\n", cont, posicao.y);
+    }
+    else
+    {
+        printf("\nO estudante se moveu %d vezes e percebeu que o labirinto não tem saída!\n", cont);
+    }
     destroiPilha(stack);
     return;
 }
@@ -263,7 +236,9 @@ void exploraAnalise(Mapa mapa, int linhas, int colunas, estudante aluno)
 void resultadoAnalise()
 {
     #ifdef ANALISE
-        printf("chamadas recursivas = %d\n", contagemRecursiva);
-        printf("nivel max = %d\n", pos_topo+1);
+        printf("Quantidade de chamadas recursivas = %d\n", contagemRecursiva);
+        printf("Nível máximo de recursividade = %d\n", pos_topo+1);
+        contagemRecursiva = 0;
+        
     #endif
 }

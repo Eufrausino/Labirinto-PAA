@@ -92,6 +92,7 @@ void MostrarMapa(Mapa mapa, int linhas, int colunas)
         {
             mudarCorTexto(mapa[i][j]);
             printf("%d ", mapa[i][j]);
+            printf("\033[0m");
         }
         printf("\n");
     }

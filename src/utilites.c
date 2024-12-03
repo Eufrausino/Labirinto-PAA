@@ -63,7 +63,6 @@ void mudarCorTexto(int numeroNaMatriz) {
         break;
     }
 
-
     //printf("\033[0;3%dm", cor);
 }
 
