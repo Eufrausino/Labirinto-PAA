@@ -59,13 +59,14 @@ void menuPrincipal(){
     //ApontadorMapa mapa = NULL; //inicialmente nao guarda mapa nenhum
 
 
+
     int cont = 0;
     while(1){
         printf("\n\n");
         printf("Opcoes do programa:\n");
         printf("1) Carregar novo arquivo de dados.\n");
         printf("2) Processar e exibir resposta.\n");
-        printf("3 ou qualquer outro caracter) Sair do programa.\n");
+        printf("3 ou maior) Sair do programa.\n");
         printf("\nDigite um numero: ");
         scanf("%d", &opcao);
 
@@ -88,6 +89,7 @@ void menuPrincipal(){
             break;
         }
     }
+
 }
 
 void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas dimensao){
@@ -112,6 +114,7 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
             MostrarMapa((*mapa), (*dimensao).x, dimensao->y);
             pressEnter();
             limparTerminalUnix();
+            return;
             return;
         }
         else return;
@@ -148,22 +151,21 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
 
 void opcao2(Mapa mapa,estudante aluno,coordenadas dimensao){
     limparTerminalUnix();
-    if(mapa != NULL)
-    {
-        #ifndef ANALISE
+    if(*mapa != NULL){
+
+        #ifndef ANALISE 
             ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
             #else
-                exploraAnalise(mapa, dimensao.x, dimensao.y, aluno);
+                ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
                 resultadoAnalise();
         #endif
         return;
     }
-    else
-    {
+    else {
         printf("Sem labirinto a ser explorado! Tente novamente\n");
         return;
     }
     return;
 }
 
-//proximas funçoes 
+
