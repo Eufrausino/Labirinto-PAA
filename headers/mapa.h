@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include "coordenadas.h"
 #include "estudante.h"
+#include <time.h>
 
 //-------------------Renomeando tipos de dados-------------------
 typedef int*** ApontadorMapa;// apontador de matriz de inteiros
@@ -44,40 +45,18 @@ void PreencherMapa(ApontadorMapa mapa, int posicacaoLinha, int valores[],int qtd
 
 //Função para leitura de arquivo
 void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coordenadas* dimensao);
-//Modificar valor da matriz
 
-//verificar se a matriz está vazia
+
+// Definições para cores
+#define VERDE 0
+#define BRANCO 1
+#define AZUL 2
+#define VERMELHO 3
+#define AMARELO 4
+
+void gerarLabirinto(const char *nomeArquivo, int largura, int altura, int chaves, int dificuldade);
 
 //FUTURAMENTE mostrar posição do aluno de Programação 
 
 #endif
 
-
-
-// void opcao1(ApontadorMapa mapa, estudante* aluno, coordenadas* dimensao){
-
-
-//     if (*mapa == NULL)
-//     {
-//         printf("Por favor, digite o nome do arquivo: ");
-//         char nomeArquivo[50];
-//         scanf("%s", nomeArquivo); 
-//         InsereLabirinto((*mapa),nomeArquivo , &aluno, &dimensao);
-
-//         printf("Deseja visualizar o mapa? (1 -> SIM, 0 -> NAO): ");
-//         int opcao;
-//         scanf("%d", &opcao);
-
-//         if (opcao == 1){
-//             printf("\n\n");
-//             MostrarMapa(mapa, dimensao.x, dimensao.y);
-//         }
-//         else return;
-//     }
-    
-
-
-    
-
-
-// }

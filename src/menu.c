@@ -63,7 +63,8 @@ void menuPrincipal(){
         printf("Opcoes do programa:\n");
         printf("1) Carregar novo arquivo de dados.\n");
         printf("2) Processar e exibir resposta.\n");
-        printf("3) Encerrar o programa.\n");
+        printf("3) Gerar novo arquivo.\n");
+        printf("4) Encerrar o programa.\n");
         printf("\nDigite um numero: ");
         scanf("%d", &opcao);
 
@@ -84,6 +85,10 @@ void menuPrincipal(){
                     break;
                 }
             case 3:
+                limparTerminalUnix();
+                opcao3();
+                break;  
+            case 4:
                 printf("Saindo do sistema...\n");
                 break;
             default:
@@ -91,7 +96,7 @@ void menuPrincipal(){
                 printf("Opcao invalida! tente outra\n");
         }
 
-    }while(opcao != 3);
+    }while(opcao != 4);
 }
 
 void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas dimensao){
@@ -168,4 +173,22 @@ void opcao2(Mapa mapa,estudante aluno,coordenadas dimensao){
     return;
 }
 
+void opcao3(){
+    int largura, altura, chaves, dificuldade;
+    char nomeArquivo[50];
 
+    printf("Digite o nome do arquivo sem extensao: ");
+    scanf("%s", nomeArquivo);
+    printf("Digite a largura do labirinto: ");
+    scanf("%d", &largura);
+    printf("Digite a altura do labirinto: ");
+    scanf("%d", &altura);
+    printf("Digite a quantidade de chaves iniciais: ");
+    scanf("%d", &chaves);
+    printf("Digite a dificuldade (0-100, onde valores altos geram mais paredes): ");
+    scanf("%d", &dificuldade);
+
+    gerarLabirinto(nomeArquivo, largura, altura, chaves, dificuldade);
+
+    return;
+}

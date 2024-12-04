@@ -188,7 +188,71 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coo
     
 }
 
-//Modificar valor da matriz
+void gerarLabirinto(const char *nomeArquivo, int largura, int altura, int chaves, int dificuldade) {
+    char caminhoArquivo[100];
+    snprintf(caminhoArquivo, sizeof(caminhoArquivo), "../arquivos/%s.txt", nomeArquivo);
+
+    FILE *arquivo = fopen(caminhoArquivo, "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
+
+    // Cabeçalho: número de linhas, colunas e chaves
+    fprintf(arquivo, "%d %d %d\n", altura, largura, chaves);
+
+    // Semente para geração de números aleatórios
+    srand(time(NULL));
+
+    // Matriz para o labirinto
+    int labirinto[altura][largura];
+
+    // Escolher aleatoriamente a coluna do valor VERDE na última linha
+    int colunaVerde = rand() % largura;
+
+    // Gerar as células do labirinto
+    for (int i = 0; i < altura; i++) {
+        for (int j = 0; j < largura; j++) {
+            if (i == altura - 1 && j == colunaVerde) {
+                labirinto[i][j] = VERDE; // Célula inicial
+            } else {
+                int prob = rand() % 100;
+                if (prob < dificuldade) {
+                    labirinto[i][j] = AZUL; // Parede
+                } else if (prob < dificuldade + 10) {
+                    labirinto[i][j] = VERMELHO; // Porta
+                } else {
+                    labirinto[i][j] = BRANCO; // Espaço vazio
+                }
+            }
+        }
+    }
+
+    // Colocar as chaves (AMARELO) em posições aleatórias
+    for (int c = 0; c < chaves; c++) {
+        int x, y;
+        do {
+            x = rand() % altura;
+            y = rand() % largura;
+        } while (labirinto[x][y] != BRANCO); // Garantir que a chave seja colocada em uma célula vazia
+
+        labirinto[x][y] = AMARELO; // Posicionar a chave
+    }
+
+    // Escrever o labirinto no arquivo
+    for (int i = 0; i < altura; i++) {
+        for (int j = 0; j < largura; j++) {
+            fprintf(arquivo, "%d", labirinto[i][j]);
+        }
+        fprintf(arquivo, "\n");
+    }
+
+    fclose(arquivo);
+    printf("\n\nLabirinto: %s.txt gerado com sucesso na pasta 'arquivos'!!!.\n", nomeArquivo);
+    pressEnter();
+}
+
+
 
 //FUTURAMENTE mostrar posição do aluno de Programação 
 

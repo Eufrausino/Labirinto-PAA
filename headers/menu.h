@@ -34,6 +34,8 @@ void menuPrincipal();
 void logo();
 void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas dimensao);
 void opcao2(Mapa mapa,estudante aluno,coordenadas dimensao);
+void opcao3();
+
 
 
 #endif
