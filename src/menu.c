@@ -81,7 +81,7 @@ void menuPrincipal(){
                     break;
                 }
                 else{
-                    opcao2(mapa, aluno, dimensao);
+                    opcao2(guardaMapa, aluno, dimensao);
                     break;
                 }
             case 3:
@@ -154,23 +154,22 @@ void opcao1(ApontadorMapa mapa,ApontadorEstudante aluno, ApontadorCoordenadas di
     }
 }
 
-void opcao2(Mapa mapa,estudante aluno,coordenadas dimensao){
+void opcao2(ApontadorMapa guardaMapa, estudante aluno, coordenadas dimensao) {
     limparTerminalUnix();
-    if(*mapa != NULL){
-
+    if (*guardaMapa != NULL) {
         #ifndef ANALISE 
-            ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
-            #else
-                ExploraLabirinto(mapa, dimensao.x, dimensao.y, aluno);
-                resultadoAnalise();
+            ExploraLabirinto(*guardaMapa, dimensao.x, dimensao.y, aluno);
+            ApagaMapa(guardaMapa, dimensao.x); 
+        #else
+            ExploraLabirinto(*guardaMapa, dimensao.x, dimensao.y, aluno);
+            resultadoAnalise();
+            ApagaMapa(guardaMapa, dimensao.x); 
         #endif
         return;
-    }
-    else {
-        printf("Sem labirinto a ser explorado! Tente novamente\n");
+    } else {
+        printf("Sem labirinto a ser explorado! Carregue um arquivo.\n");
         return;
     }
-    return;
 }
 
 void opcao3(){

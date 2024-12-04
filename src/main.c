@@ -19,7 +19,7 @@
 
 int main()
 {
-    limparTerminalUnix();
+    //limparTerminalUnix();
     logo();
     menuPrincipal();
     return 0;

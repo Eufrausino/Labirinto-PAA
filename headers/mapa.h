@@ -48,6 +48,7 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coo
 
 
 // Definições para cores
+//Essas definições sao pra facilitar a entender o codigo e saber quais numeros/ cores estou mexendo 
 #define VERDE 0
 #define BRANCO 1
 #define AZUL 2
