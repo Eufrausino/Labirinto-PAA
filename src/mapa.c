@@ -188,7 +188,7 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coo
     
 }
 
-void gerarLabirinto(const char *nomeArquivo, int largura, int altura, int chaves, int dificuldade) {
+void gerarLabirinto(const char *nomeArquivo, int largura, int altura, int chaves, int dificuldade,int chavesPerdidas) {
     char caminhoArquivo[100];
     snprintf(caminhoArquivo, sizeof(caminhoArquivo), "../arquivos/%s.txt", nomeArquivo);
 
@@ -229,7 +229,7 @@ void gerarLabirinto(const char *nomeArquivo, int largura, int altura, int chaves
     }
 
     // Colocar as chaves (AMARELO) em posições aleatórias
-    for (int c = 0; c < chaves; c++) {
+    for (int c = 0; c < chavesPerdidas; c++) {
         int x, y;
         do {
             x = rand() % altura;

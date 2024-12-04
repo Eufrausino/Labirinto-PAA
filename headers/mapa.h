@@ -55,7 +55,7 @@ void InsereLabirinto(ApontadorMapa mapa, char Labirinto[], estudante* aluno, coo
 #define VERMELHO 3
 #define AMARELO 4
 
-void gerarLabirinto(const char *nomeArquivo, int largura, int altura, int chaves, int dificuldade);
+void gerarLabirinto(const char *nomeArquivo, int largura, int altura, int chaves, int dificuldade, int chavesPerdidas);
 
 //FUTURAMENTE mostrar posição do aluno de Programação 
 

@@ -173,7 +173,7 @@ void opcao2(ApontadorMapa guardaMapa, estudante aluno, coordenadas dimensao) {
 }
 
 void opcao3(){
-    int largura, altura, chaves, dificuldade;
+    int largura, altura, chaves, dificuldade, chavesPerdidas;
     char nomeArquivo[50];
 
     printf("Digite o nome do arquivo sem extensao: ");
@@ -186,8 +186,10 @@ void opcao3(){
     scanf("%d", &chaves);
     printf("Digite a dificuldade (0-100, onde valores altos geram mais paredes): ");
     scanf("%d", &dificuldade);
+    printf("Digite qunatas chaves estão perdidas no labirinto: ");
+    scanf("%d", &chavesPerdidas);
 
-    gerarLabirinto(nomeArquivo, largura, altura, chaves, dificuldade);
+    gerarLabirinto(nomeArquivo, largura, altura, chaves, dificuldade,chavesPerdidas);
 
     return;
 }
